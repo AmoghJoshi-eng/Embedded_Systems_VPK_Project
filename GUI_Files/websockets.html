@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vata Pitta & Kapha Analysis</title>
+
+    <!-- Add Plotly library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: auto;
+            margin-top:20px;
+            
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e5e5e5;
+        }
+        main{
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50; /* Green background color */
+            color: white; /* White text color */
+            padding: 10px 15px; /* Add padding for better button appearance */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            cursor: pointer; /* Add cursor pointer on hover */
+        }
+        button:hover {
+            background-color: #45a049; /* Darker green color on hover */
+        }
+
+        form {
+        max-width: 80vw;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+        text-align: center; /* Center the form content */
+    }
+
+    .form_input,
+    select {
+        width: calc(33.33% - 10px);
+        /* 33.33% width for each input with a little space in between */
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        display: inline-block; /* Display inputs in a line */
+    }
+
+    select {
+        width: calc(33.33% - 6px); /* Adjust width for the select element */
+    }
+
+    button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+    .title{
+        margin: 50px auto;
+        text-align: center;
+    }
+    .buttons{
+        margin: auto;
+        text-align: center;
+    }
+
+    </style>
+</head>
+<body>
+
+<h1 class="title">Vata Pitta & Kapha Analysis</h1>
+<form 
+        method="POST" 
+        action="https://script.google.com/macros/s/AKfycbzBkF4_6-nLWm3MAQNrQWm21LpWlYrY7M3W3B2IsLESeO05ncp8eLM_8amlTM3HbEr4bw/exec"
+        >
+        <input class="form_input" name="Name" id="nameInput" type="text" placeholder="Name" required>
+        <input class="form_input" name="Age" type="number" placeholder="Age" required>
+        <select name="Gender" type="text" placeholder="Gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <input name="Vatamean" type="text" placeholder="Vata" required style="display: none;" id="vatmean">
+        <input name="Pittamean" type="text" placeholder="Pitta" required style="display: none;" id="pitmean">
+        <input name="Kaphamean" type="text" placeholder="Kapha" required style="display: none;" id="kapmean">
+        <input name="Vatavar" type="text" placeholder="Vata" required style="display: none;" id="vatPowvar">
+        <input name="Pittavar" type="text" placeholder="Pitta" required style="display: none;" id="pitPowvar">
+        <input name="Kaphavar" type="text" placeholder="Kapha" required style="display: none;" id="kapPowvar">
+        <input name="Vatanor" type="text" placeholder="Vata" required style="display: none;" id="vatPownor">
+        <input name="Pittanor" type="text" placeholder="Pitta" required style="display: none;" id="pitPownor">
+        <input name="Kaphanor" type="text" placeholder="Kapha" required style="display: none;" id="kapPownor">
+        <input name="Dominant" type="text" placeholder="Dominant" style="display: none;" id="Dominant">
+        <br>
+        <button type="submit" target="blank" style="margin:20px auto ;" >Submit this response</button>
+    </form>
+
+<!-- Create three lists for sensor data -->
+<div class="buttons">
+<button id="toggleButton" onclick="toggleFetching()">Start</button>
+<button id="calculate" onclick="calculate()">calculate</button>
+<button id="saveButton">Save Image</button>
+<button id='dataSave' onclick='exportToCSV()'>Save data</button>
+<button style="margin: auto;text-align: center;" onclick="chartshow()">Show All plots</button>
+<button id="resetGraph" onclick="resetGraph()"> Reset Graph</button>
+</div>
+<ul id="Vata" style="display: none;"></ul>
+<ul id="Pitta" style="display: none;"></ul>
+<ul id="Kapha" style="display: none;"></ul>
+
+<!-- Chart Visualization -->
+<h2 style="text-align: center;">Pulses chracteristeristics</h2>
+<!-- <button onclick="showtable()">Show Table</button> -->
+    <table id="table">
+        <thead>
+            <tr>
+                <th>Pulse</th>
+                <th>Vata</th>
+                <th>Pitta</th>
+                <th>Kapha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Mean</td>
+                <td id="meanVat"></td>
+                <td id="meanPit"></td>
+                <td id="meanKap"></td>
+            </tr>
+            <tr>
+                <td>variance</td>
+                <td id="varVat"></td>
+                <td id="varPit"></td>
+                <td id="varKap"></td>
+            </tr>
+            <tr>
+                <td>Normalized</td>
+                <td id="norVat"></td>
+                <td id="norPit"></td>
+                <td id="norKap"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+<div id="chart"></div>
+<div id="vataplot"></div>
+<div id="pittaplot"></div>
+<div id="kaphaplot"></div>
+
+<!-- Start/Stop button -->
+
+
+<script>
+    const webSocket = new WebSocket('ws://192.168.200.141:81');
+
+    // Create arrays to store sensor data
+    const Vatta = [];
+    const Pitta = [];
+    const Kapha = [];
+    var data=[];
+    var TAvgvat = document.getElementById("meanVat");
+    var TAvgpit = document.getElementById("meanPit");
+    var TAvgkap = document.getElementById("meanKap");
+    var TVarvat = document.getElementById("varVat");
+    var TVarpit = document.getElementById("varPit");
+    var TVarkap = document.getElementById("varKap");
+    var TNvat = document.getElementById("norVat");
+    var TNpit = document.getElementById("norPit");
+    var TNkap = document.getElementById("norKap");
+    var nameInput = document.getElementById("nameInput");
+    var Vatamean = document.getElementById("vatmean");
+    var Pittamean = document.getElementById("pitmean");
+    var Kaphamean = document.getElementById("kapmean");
+    var Vatavar = document.getElementById("vatPowvar");
+    var Pittavar = document.getElementById("pitPowvar");
+    var Kaphavar = document.getElementById("kapPowvar");
+    var Vatanor = document.getElementById("vatPownor");
+    var Pittanor = document.getElementById("pitPownor");
+    var Kaphanor = document.getElementById("kapPownor");
+    var dominantInput = document.getElementById("Dominant");
+    const size=200;
+    // Flag to track if fetching is enabled
+    let isFetching = false;
+    let view=false;
+    // var table=document.getElementById("table");
+
+    // function showtable(){
+    //     if(view){
+    //         view=false;
+    //         table.style.display = "none";
+    //         table.style.width="80%";
+
+    //     } else{
+    //         view=true;
+    //         table.style.display = "block"
+    //         table.style.width="80%";
+    //     }
+    // }
+
+
+
+    webSocket.onopen = function (event) {
+        console.log('WebSocket connection opened:', event);
+    };
+    var showall=false;
+    function chartshow(){
+        if(showall) {
+            showall=false;
+        } else{
+            showall=true;
+        }
+    }
+    webSocket.onmessage = function (event) {
+        if (isFetching) {
+            const sensorData = event.data;
+            // console.log('Received sensor data:', sensorData);
+
+            // Add the new sensor data to the arrays
+            Vatta.push(Number(sensorData.split(',')[0]));
+            Pitta.push(Number(sensorData.split(',')[1]));
+            Kapha.push(Number(sensorData.split(',')[2]));
+
+            // Limit each list to 60 points
+            if (Vatta.length > size) Vatta.shift();
+            if (Pitta.length > size) Pitta.shift();
+            if (Kapha.length > size) Kapha.shift();
+
+            // if(Vatta[size-1]<500){
+            //     Vatta.pop();
+            //     Pitta.pop();
+            //     Kapha.pop();
+            // }
+
+            // Update the HTML lists with the sensor data
+            updateSensorList('Vata', Vatta);
+            updateSensorList('Pitta', Pitta);
+            updateSensorList('Kapha', Kapha);
+
+            // Update the Plotly chart
+            updateChart(Vatta, Pitta, Kapha);
+            if(showall) {
+            updateChart1(Vatta,'vataplot','Vata');
+            updateChart1(Pitta,'pittaplot','Pitta');
+            updateChart1(Kapha,'kaphaplot','kapha');
+            }
+        }
+    };
+
+    webSocket.onclose = function (event) {
+        console.log('WebSocket connection closed:', event);
+    };
+
+    webSocket.onerror = function (event) {
+        console.error('WebSocket error:', event);
+    };
+
+    // Function to update an HTML list with sensor data
+    function updateSensorList(listId, data) {
+        const listElement = document.getElementById(listId);
+        listElement.innerHTML = `<strong>${listId}:</strong>`;
+
+        data.forEach((value) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = value;
+            listElement.appendChild(listItem);
+        });
+    }
+
+    function resetGraph(){
+        // Vatta = [];
+        // Pitta = [];
+        // Kapha = [];
+        Vatta.splice(0, Vatta.length);
+        Pitta.splice(0, Pitta.length);
+        Kapha.splice(0, Kapha.length);
+        updateChart(Vatta, Pitta, Kapha)
+
+
+
+    }
+
+    function exportToCSV() {
+
+        var vata1 = Vatta;
+        var pitta1 = Pitta;
+        var Kapha1 = Kapha;
+        name = nameInput.value;
+
+        // Combine the lists into a 2D array for CSV conversion
+        var dataList = [vata1, pitta1, Kapha1];
+
+        // Convert the data to CSV format
+        //   var csvContent = "data:text/csv;charset=utf-8,";
+
+        // Add column titles
+        var csvContent = "vata,pitta,kapha\r\n";
+
+        // Add data rows
+        for (var i = 0; i < vata1.length; i++) {
+        csvContent += vata1[i].toFixed(2) + "," + pitta1[i].toFixed(2) + "," + Kapha1[i].toFixed(2) + "\r\n";
+        }
+
+        // Create a blob from the CSV content
+        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+
+        // Save the blob as a file using FileSaver.js
+        saveAs(blob, `${name}.csv`);
+        }
+
+    // Function to update the Plotly chart
+    function updateChart(Vatta, Pitta, Kapha) {
+        const traceVata = {
+            y: Vatta,
+            mode: 'lines',
+            name: 'Vata'
+        };
+
+        const tracePitta = {
+            y: Pitta,
+            mode: 'lines',
+            name: 'Pitta'
+        };
+
+        const traceKapha = {
+            y: Kapha,
+            mode: 'lines',
+            name: 'Kapha'
+        };
+
+        const layout = {
+            title: 'Sensor Data Chart',
+            xaxis: {
+                title: 'Time'
+            },
+            yaxis: {
+                title: 'Sensor Values'
+            }
+        };
+
+        data = [traceVata, tracePitta, traceKapha];
+
+        Plotly.newPlot('chart', data, layout);
+    }
+
+    function updateChart1(signal,id,title) {
+        const traceVata = {
+            y: signal,
+            mode: 'lines',
+            name: 'Vata'
+        };
+
+
+        const layout = {
+            title: title,
+            xaxis: {
+                title: 'Time'
+            },
+            yaxis: {
+                title: 'Sensor Values'
+            }
+        };
+
+        data = [traceVata];
+
+        Plotly.newPlot(id, data, layout);
+    }
+    
+
+    // Function to toggle fetching state
+    function toggleFetching() {
+        isFetching = !isFetching;
+        const button = document.getElementById('toggleButton');
+        button.textContent = isFetching ? 'Stop' : 'Start';
+        button.style.backgroundColor = isFetching ? 'red' : 'green';
+    }
+
+    function calculateMean(list) {
+        const sum = list.reduce((acc, value) => acc + value, 0);
+        return sum / list.length;
+    }
+
+    // Function to calculate the variance of a list
+    function calculateVariance(list) {
+        const mean = calculateMean(list);
+        const squaredDifferences = list.map(value => Math.pow(value - mean, 2));
+        const sumSquaredDifferences = squaredDifferences.reduce((acc, value) => acc + value, 0);
+        return sumSquaredDifferences / list.length;
+    }
+
+    function calculate() {
+        var nameInput = document.getElementById("nameInput");
+        var name='sanchit';
+        name = nameInput.value;
+        const meanVatta = calculateMean(Vatta).toFixed(2);
+        const meanPitta = calculateMean(Pitta).toFixed(2);
+        const meanKapha = calculateMean(Kapha).toFixed(2);
+        const varVatta = calculateVariance(Vatta).toFixed(2);
+        const varPitta=calculateVariance(Pitta).toFixed(2);
+        const varKapha=calculateVariance(Kapha).toFixed(2);
+        var Vmax=Math.max(...Vatta);
+        var Pmax = Math.max(...Pitta);
+        var Kmax = Math.max(...Kapha);
+        var Vmin=Math.min(...Vatta);
+        var Pmin = Math.min(...Pitta);
+        var Kmin = Math.min(...Kapha);
+        const Nvat=(meanVatta-Vmin)/(Vmax-Vmin);
+        const Nkap=(meanKapha-Kmin)/(Kmax-Kmin);
+        const Npit=(meanPitta-Pmin)/(Pmax-Pmin);
+        TAvgvat.textContent = meanVatta;
+        TAvgpit.textContent = meanPitta;
+        TAvgkap.textContent = meanKapha;
+
+        // Update Variance values
+        TVarvat.textContent = varVatta;
+        TVarpit.textContent = varPitta;
+        TVarkap.textContent = varKapha;
+
+        // Update Normalized values
+        TNvat.textContent = Nvat.toFixed(4);
+        TNpit.textContent = Npit.toFixed(4);
+        TNkap.textContent = Nkap.toFixed(4);
+
+        Vatamean.value = meanVatta;
+        Pittamean.value = meanPitta;
+        Kaphamean.value = meanKapha;
+        Vatavar.value = varVatta;
+        Pittavar.value = varPitta;
+        Kaphavar.value = varKapha;
+        Vatanor.value = Nvat;
+        Pittanor.value = Npit;
+        Kaphanor.value = Nkap;
+        if (Nvat === Math.max(Nvat, Nkap, Npit)) {
+            dominantInput.value = 'Vata';
+        } else if (Nkap === Math.max(Nvat, Nkap, Npit)) {
+            dominantInput.value = 'Pitta';
+        } else {
+            dominantInput.value = 'Kapha';
+        }
+
+        layout = {
+                    title: ` ${name}'s Vatta Pitha Kapha Graphs,<br> <b>${Dominant.value}</b> dominate`,
+                    annotations: [
+                {
+                    text: `This is data of ${name} and this are pulse chracteristics:<br> <b>vata:</b> mean:${meanVatta} variance:${varVatta} Normalized:${Nvat} <br><b> Pitta:</b> mean:${meanPitta} variance:${varPitta} Normalized:${Npit} <br><b> Kapha:</b> mean:${meanKapha} variance:${varKapha} Normalized:${Nkap}`, // Your desired text
+                    xref: 'paper',  // Position the annotation relative to the entire graph
+                    yref: 'paper',  // Position the annotation relative to the entire graph
+                    x: 0.5, // Adjust the x-coordinate to center the text
+                    y: -0.3, // Adjust the y-coordinate to move the text further down
+                    showarrow: false,
+                }],
+                };
+        Plotly.update('chart', data, layout);
+        Plotly.newPlot('chart', data, layout);
+    }
+
+    document.getElementById('saveButton').addEventListener('click', function () {
+            // Capture the graph div as a DOM element
+            const graphDiv = document.getElementById('chart');
+            const nameInput = document.getElementById('nameInput');
+            name = nameInput.value;
+            const link1 = document.getElementById('link');
+
+            // Use Plotly's toImage method to convert the graph to an image
+            Plotly.toImage(graphDiv, { format: 'png', height: 450, width: 1024 })
+                .then(function (url) {
+                    // Create an anchor element to trigger the image download
+                    const link = document.createElement('a');
+                    link.href = url;
+                    // link1.value=link.href;
+                    link.download = `${name}.png`; // Specify the filename for the downloaded image
+                    link.click();
+                });
+        });
+
+</script>
+
+</body>
+</html>
