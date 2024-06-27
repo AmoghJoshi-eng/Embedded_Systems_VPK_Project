@@ -3,9 +3,12 @@ Pulse Measurement setup is a micro-controller based pulse measuring system which
 Pulse Measurement wearable setup based on Ayurvedic NADI PARIKSHAN is a micro-controller based pulse measuring system which can be used to monitor pulse of human. Setup designed has the added advantage of being wearable and the waveforms at each point are monitored in real-time on Serial Plotter as well as displayed on a GUI based webpage for intuitive analysis
 
 # Hardware Components Used
-1) MAX30102 Pulse Oximeter and Heart Rate Sensor IC
+1) MAX30102 Pulse Oximeter and Heart Rate Sensor Module and IC
 <img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/MAX30102_Sensor.jpg?raw=true" alt="Sensor_Module" width="200">
 
 
-This is sensor module which is used to sense the pulse which works on the principle known as Photoplethysmography (PPG). The IC named as MAX30102EFDT+ consists of two LED's (Red LED and IR LED),a photodiode and a signal processing circuitry. To analyse the working of module read the following text. The LED (consider IR RED) emits light towards human skin.A certain amount of light gets absorbed by the blood flowing through the radial artery. The amount of light getting absorbed depends on the Oxygen content in the blood. The higher the oxygenated blood more amount of light gets absorbed. The remaining light gets reflected which is sensed by the photodiode. Depending on different absorption,a waveform gets plotted after certain processing after receiving signal through photodiode which represents the human heart pulse
+This is sensor module which is used to sense the pulse which works on the principle known as Photoplethysmography (PPG). The IC named as MAX30102EFDT+ consists of two LED's (Red LED and IR LED),a photodiode and a signal processing circuitry. To analyse the working of module read the following text. The LED (consider IR RED) emits light towards human skin.A certain amount of light gets absorbed by the blood flowing through the radial artery. The amount of light getting absorbed depends on the Oxygen content in the blood. The higher the oxygenated blood more amount of light gets absorbed. The remaining light gets reflected which is sensed by the photodiode. Depending on different absorption,a waveform gets plotted after certain processing after receiving signal through photodiode which represents the human heart pulse.
+
+2) XIAO ESP32-C3
+3) <img src=""
 
