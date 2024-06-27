@@ -23,3 +23,10 @@ The TCA9546A is a low-voltage, 4-channel I2C and SMBus switch with a reset funct
 4) FPC connector and cable
 <img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/FPC_connector.jpg" alt="FPC_connector" width="150">
 <img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/FPC_Cable.jpg" alt="FPC_Cable" width="150">
+
+FPC connectors are specialized connectors designed to interface with flexible printed circuits (FPCs)  or flexible flat cables (FFCs). FPCs require special connectors due to their thin and delicate nature. These connectors provide a secure and reliable connection between the FPC and a printed circuit board (PCB) or another FPC. It is used to connect two PCB and provide reliable connectivity.
+
+#PCB 3D Images
+1. Sensor PCB
+<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/Sensor_PCB_TOP.png" alt="Sensor_PCB_TOP" width="200">
+<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/Sensor_PCB_BOTTOM.png" alt="Sensor_PCB_BOTTOM" width="200">
