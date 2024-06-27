@@ -31,6 +31,6 @@ FPC connectors are specialized connectors designed to interface with flexible pr
 #PCB 3D Images
 1. Sensor PCB
 <div style="display:flex;">
-<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/Sensor_PCB_TOP.png" alt="Sensor_PCB_TOP" width="250">
-<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/Sensor_PCB_BOTTOM.png" alt="Sensor_PCB_BOTTOM" width="250">
+<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/Sensor_PCB_TOP.png" alt="Sensor_PCB_TOP" width="300">
+<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/Sensor_PCB_BOTTOM.png" alt="Sensor_PCB_BOTTOM" width="300">
 </div>
