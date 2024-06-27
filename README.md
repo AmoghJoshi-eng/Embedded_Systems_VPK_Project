@@ -15,6 +15,11 @@ This is sensor module which is used to sense the pulse which works on the princi
 
 ESP32-C3 is Seeed Studio's miniature development board designed for Internet of Things (IoT) projects. It consisits of RISC-V 32-bit processor with FPU supporting WiFi and Bluetooth Low Energy (BLE) connectivity. It acting like the brain of the setup. It collects data from the three sensors and sends the data of each sensor to the Web based GUI.It provides battery charging pins which help to make the product battery powered and rechargeable.
 
-3) TCA9456A MUltiplexing IC
-<img src=""
+3) TCA9546A Multiplexing IC
+<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/TCA9546APWR.jpg" alt="Multiplexing_IC" width="200">
 
+The TCA9546A is a low-voltage, 4-channel I2C and SMBus switch with a reset function. It's a handy chip for managing multiple I2C devices on the same bus.The I2C device which needs to be communicated is choosen using a 8 bit command given to the multiplexer IC, which then routes the I2C signals to the selected device. This is useful when the I2C addresses of the connected devices are same. In this project 3 same sensors with same addresses are used, therefore I2C multiplexer IC is required for efficient data gathering. 
+
+4) FPC connector and cable
+<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/FPC_connector.jpg" alt="FPC_connector" width="200">
+<img src="https://github.com/AmoghJoshi-eng/Embedded_Systems_VPK_Project/blob/main/PCB_Photos/FPC_Cable.jpg" alt="FPC_Cable" width="200">
